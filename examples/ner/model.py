@@ -3,6 +3,7 @@ import torch.nn as nn
 from torch.nn import CrossEntropyLoss
 
 from luke.model import LukeEntityAwareAttentionModel
+import pdb
 
 
 class LukeForNamedEntityRecognition(LukeEntityAwareAttentionModel):
@@ -61,10 +62,18 @@ class LukeForNamedEntityRecognition(LukeEntityAwareAttentionModel):
                 feature_vector = torch.cat([start_states, end_states, entity_hidden_states], dim=2)
 
         feature_vector = self.dropout(feature_vector)
-        logits = self.classifier(feature_vector)
+        logits = self.classifier(feature_vector) # Token Representations from LUKE 
 
         if labels is None:
             return logits
 
         loss_fn = CrossEntropyLoss(ignore_index=-1)
-        return (loss_fn(logits.view(-1, self.num_labels), labels.view(-1)),)
+        cosine_similarity_loss = nn.CosineSimilarity(dim=1, eps=1e-6)
+        
+        # logits  = batch_size x _ x num_labels
+
+        label_representations = torch.randn(logits.view(-1, self.num_labels).shape).to('cuda')
+        cos_output = cosine_similarity_loss(logits.view(-1, self.num_labels), label_representations) 
+
+        pdb.set_trace()
+        return logits, (loss_fn(logits.view(-1, self.num_labels), labels.view(-1)),)
