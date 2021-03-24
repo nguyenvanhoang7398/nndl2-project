@@ -7,6 +7,7 @@ import csv
 import gensim
 import gensim.downloader as api
 import numpy as np
+import pandas as pd
 
 CUR_DIR = dirname(abspath(__file__))
 NER_FILE = os.path.join(CUR_DIR, 'CrossNER_NOUN_PRON.pickle')
