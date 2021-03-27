@@ -18,7 +18,7 @@ class InputFeatures(object):
     def __init__(
         self,
         example_index,
-        target_tokens,
+        words,
         word_ids,
         word_segment_ids,
         word_attention_mask,
@@ -32,7 +32,7 @@ class InputFeatures(object):
         labels,
     ):
         self.example_index = example_index
-        self.target_tokens = target_tokens
+        self.words = words
         self.word_ids = word_ids
         self.word_segment_ids = word_segment_ids
         self.word_attention_mask = word_attention_mask
@@ -225,7 +225,7 @@ def convert_examples_to_features(
                 features.append(
                     InputFeatures(
                         example_index=example_index,
-                        target_tokens=target_tokens,
+                        words=example.words,
                         word_ids=word_ids,
                         word_attention_mask=word_attention_mask,
                         word_segment_ids=word_segment_ids,
@@ -241,7 +241,7 @@ def convert_examples_to_features(
                 )
 
         assert not entity_labels
-    pdb.set_trace()
+    #pdb.set_trace()
     return features
 
 
