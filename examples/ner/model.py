@@ -75,5 +75,5 @@ class LukeForNamedEntityRecognition(LukeEntityAwareAttentionModel):
         label_representations = torch.randn(logits.view(-1, self.num_labels).shape).to('cuda')
         cos_output = cosine_similarity_loss(logits.view(-1, self.num_labels), label_representations) 
 
-        pdb.set_trace()
+        #pdb.set_trace()
         return logits, (loss_fn(logits.view(-1, self.num_labels), labels.view(-1)),)

@@ -240,7 +240,7 @@ def convert_examples_to_features(
                 )
 
         assert not entity_labels
-
+    pdb.set_trace()
     return features
 
 
