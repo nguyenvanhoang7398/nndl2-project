@@ -17,7 +17,7 @@ class InputFeatures(object):
     def __init__(
         self,
         example_index,
-        tokens,
+        target_tokens,
         word_ids,
         word_segment_ids,
         word_attention_mask,
@@ -31,7 +31,7 @@ class InputFeatures(object):
         labels,
     ):
         self.example_index = example_index
-        self.tokens = target_tokens
+        self.target_tokens = target_tokens
         self.word_ids = word_ids
         self.word_segment_ids = word_segment_ids
         self.word_attention_mask = word_attention_mask
@@ -224,7 +224,7 @@ def convert_examples_to_features(
                 features.append(
                     InputFeatures(
                         example_index=example_index,
-                        tokens=target_tokens,
+                        target_tokens=target_tokens,
                         word_ids=word_ids,
                         word_attention_mask=word_attention_mask,
                         word_segment_ids=word_segment_ids,
