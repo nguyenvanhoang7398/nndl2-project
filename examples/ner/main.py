@@ -59,7 +59,7 @@ def run(common_args, **task_args):
     mask_emb = entity_emb[args.entity_vocab[MASK_TOKEN]].unsqueeze(0)
     args.model_weights["entity_embeddings.entity_embeddings.weight"] = torch.cat([entity_emb[:1], mask_emb])
 
-    train_dataloader, _, train_features, processor = load_examples(args, "train")
+    train_dataloader, train_examples, train_features, processor = load_examples(args, "train")
     results = {}
 
     if args.do_train:
@@ -219,7 +219,7 @@ def load_examples(args, fold):
             ret["entity_attention_mask"].fill_(0)
 
         if fold == "train":
-            ret["words"] = [o[0] for o in batch]
+            ret["words"] = [o[1].words for o in batch]
             ret["labels"] = create_padded_sequence("labels", -1)
         else:
             ret["feature_indices"] = torch.tensor([o[0] for o in batch], dtype=torch.long)

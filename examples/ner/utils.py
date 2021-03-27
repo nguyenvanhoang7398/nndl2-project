@@ -5,6 +5,9 @@ import unicodedata
 from transformers.tokenization_roberta import RobertaTokenizer
 import pdb
 
+from word_embeds.extract_word_embed import read_embeddings
+word_embeddings = read_embeddings('./word_embeds/embeddings.txt')
+
 
 class InputExample(object):
     def __init__(self, guid, words, labels, sentence_boundaries):
@@ -242,8 +245,8 @@ def convert_examples_to_features(
                 )
 
         assert not entity_labels
-    #print('INside utils features datastructure')
-    #pdb.set_trace()
+    print('INside utils features datastructure')
+    pdb.set_trace()
     return features
 
 
