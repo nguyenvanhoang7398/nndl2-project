@@ -59,7 +59,7 @@ def run(common_args, **task_args):
     mask_emb = entity_emb[args.entity_vocab[MASK_TOKEN]].unsqueeze(0)
     args.model_weights["entity_embeddings.entity_embeddings.weight"] = torch.cat([entity_emb[:1], mask_emb])
 
-    train_dataloader, _, _, processor = load_examples(args, "train")
+    train_dataloader, _, train_features, processor = load_examples(args, "train")
     results = {}
 
     if args.do_train:
@@ -69,6 +69,9 @@ def run(common_args, **task_args):
 
         num_train_steps_per_epoch = len(train_dataloader) // args.gradient_accumulation_steps
         num_train_steps = int(num_train_steps_per_epoch * args.num_train_epochs)
+
+        print('Inside main')
+        pdb.set_trace()
 
         trainer = Trainer(args, model=model, dataloader=train_dataloader, num_train_steps=num_train_steps)
         trainer.train()
@@ -201,6 +204,7 @@ def load_examples(args, fold):
             return torch.nn.utils.rnn.pad_sequence(tensors, batch_first=True, padding_value=padding_value)
 
         ret = dict(
+            words=create_padded_sequence("words",0),
             word_ids=create_padded_sequence("word_ids", args.tokenizer.pad_token_id),
             word_attention_mask=create_padded_sequence("word_attention_mask", 0),
             word_segment_ids=create_padded_sequence("word_segment_ids", 0),
@@ -233,6 +237,5 @@ def load_examples(args, fold):
     else:
         dataloader = DataLoader(list(enumerate(features)), batch_size=args.eval_batch_size, collate_fn=collate_fn)
 
-    print('Inside main')
-    pdb.set_trace()
+
     return dataloader, examples, features, processor
