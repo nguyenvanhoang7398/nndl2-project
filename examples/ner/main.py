@@ -204,7 +204,6 @@ def load_examples(args, fold):
             return torch.nn.utils.rnn.pad_sequence(tensors, batch_first=True, padding_value=padding_value)
 
         ret = dict(
-            words=create_padded_sequence("words",0),
             word_ids=create_padded_sequence("word_ids", args.tokenizer.pad_token_id),
             word_attention_mask=create_padded_sequence("word_attention_mask", 0),
             word_segment_ids=create_padded_sequence("word_segment_ids", 0),
@@ -220,9 +219,13 @@ def load_examples(args, fold):
             ret["entity_attention_mask"].fill_(0)
 
         if fold == "train":
+            ret["words"] = [o[0] for o in batch]
             ret["labels"] = create_padded_sequence("labels", -1)
         else:
             ret["feature_indices"] = torch.tensor([o[0] for o in batch], dtype=torch.long)
+
+        print('Inside collate')
+        pdb.set_trace()
 
         return ret
 
