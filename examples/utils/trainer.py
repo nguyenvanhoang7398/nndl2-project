@@ -96,7 +96,7 @@ class Trainer(object):
 
                     loss = outputs[0]
 
-                    #pdb.set_trace()
+                    pdb.set_trace()
 
                     if self.args.gradient_accumulation_steps > 1:
                         loss = loss / self.args.gradient_accumulation_steps
