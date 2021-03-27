@@ -24,7 +24,6 @@ class LukeForNamedEntityRecognition(LukeEntityAwareAttentionModel):
 
     def forward(
         self,
-        target_tokens,
         word_ids,
         word_segment_ids,
         word_attention_mask,
@@ -37,7 +36,6 @@ class LukeForNamedEntityRecognition(LukeEntityAwareAttentionModel):
         labels=None,
     ):
         encoder_outputs = super(LukeForNamedEntityRecognition, self).forward(
-            target_tokens,
             word_ids,
             word_segment_ids,
             word_attention_mask,
