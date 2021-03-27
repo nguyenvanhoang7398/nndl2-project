@@ -95,7 +95,7 @@ class Trainer(object):
                     features, outputs = model(**inputs)
 
                     loss = outputs[0]
-
+                    print('indise trainer')
                     pdb.set_trace()
 
                     if self.args.gradient_accumulation_steps > 1:
