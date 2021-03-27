@@ -21,7 +21,7 @@ class InputFeatures(object):
     def __init__(
         self,
         example_index,
-        words,
+        embeddings,
         word_ids,
         word_segment_ids,
         word_attention_mask,
@@ -35,7 +35,7 @@ class InputFeatures(object):
         labels,
     ):
         self.example_index = example_index
-        self.words = words
+        self.embeddings = embeddings
         self.word_ids = word_ids
         self.word_segment_ids = word_segment_ids
         self.word_attention_mask = word_attention_mask
@@ -116,7 +116,7 @@ def convert_examples_to_features(
     for example_index, example in enumerate(examples):
         tokens = [tokenize_word(w) for w in example.words]
         subwords = [w for li in tokens for w in li]
-        words = example.words # added
+        embeddings = [word_embeddings[w] for w in example.words if w in word_embeddings] #added
 
         subword2token = list(itertools.chain(*[[i] * len(li) for i, li in enumerate(tokens)]))
         token2subword = [0] + list(itertools.accumulate(len(li) for li in tokens))
@@ -229,7 +229,7 @@ def convert_examples_to_features(
                 features.append(
                     InputFeatures(
                         example_index=example_index,
-                        words=words,
+                        embeddings=embeddings,
                         word_ids=word_ids,
                         word_attention_mask=word_attention_mask,
                         word_segment_ids=word_segment_ids,
